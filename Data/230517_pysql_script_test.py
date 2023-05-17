@@ -19,7 +19,7 @@ def insertsql():
     i = 0
     while i < 100:
         i = i + 1
-        cursor.execute(sql_query,('test'))
+        cursor.execute(sql_query,('test'+str(i), i))
         test_db.commit()
         time.sleep(1)
     test_db.close() 
