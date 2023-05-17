@@ -7,7 +7,7 @@ test_db = pymysql.connect(
     host = "127.0.0.1",
     db = "testdb",
     port = 3306,
-    charset = 'utf-8'
+    charset = 'utf8'
 )
 
 cursor = test_db.cursor(pymysql.cursors.DictCursor)
