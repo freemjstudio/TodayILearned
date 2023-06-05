@@ -13,30 +13,24 @@ sigungu_list = [i for i in range(1, 11)] # 1 ~ 10 시군구 코드
 
 # {"response": {"header":{"resultCode":"0000","resultMsg":"OK"},"body": {"items": "","numOfRows":0,"pageNo":10,"totalCount":33}}} 
 
-# body[items] 면 break 
+entire_data = [] 
 
-entire_data = [] # 
-# notebook.tqdm(range(100))
-while True:
-    page = 0 
-    for mobile in MobileOS_list:
-        for content in contentType_list:
-            print("content Type : " , contentType_dict[content])
-            for sgg in sigungu_list:
-                
+
+for mobile in MobileOS_list:
+    print("mobile Type:", mobile)
+    for content in contentType_list:
+        print("content Type : " , contentType_dict[content])
+        for sgg in sigungu_list:
+            print("시군구: ", sgg)
+            for page in range(5):
                 url = f"https://apis.data.go.kr/B551011/KorWithService1/areaBasedSyncList1?serviceKey=xz7iOMQiFnZbsS4NZx5uCNKfQ0A%2Bwilakf8cCYkqPSIpaECLDbV5G0%2BnNYxTyzYpbLcRVtbonCU22Uqd5F2bDA%3D%3D&numOfRows=100&pageNo={page}&MobileOS={mobile}&MobileApp=AppTest&_type=json&showflag=1&listYN=Y&arrange=C&contentTypeId={content}&areaCode=1&sigunguCode={sgg}"
 
                 
                 # data_list = json_data['response']['body']['items']['item']
                 result = requests.get(url)
                 json_data = result.json()
-                if len(json_data['response']['body']['items']) == 0:
-                    page = 0 
-                    continue  
+                
+                if not json_data['response']['body']['items']:
+                    break 
                 data_list = json_data['response']['body']['items']['item']
                 entire_data.append(data_list)
-                page += 1
-
-
-df = pd.DataFrame.from_dict(entire_data)
-df
